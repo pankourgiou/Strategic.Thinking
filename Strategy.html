@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE STRATEGIST'S CODEX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --bone: #f5f0e8;
+    --gold: #c9a84c;
+    --rust: #8b3a2a;
+    --slate: #2c3e50;
+    --fog: #d4cfc7;
+    --deep: #1a1a2e;
+    --crimson: #6b1a1a;
+    --sage: #4a5c4e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bone);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* COVER */
+  .cover {
+    min-height: 100vh;
+    background: var(--deep);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 60px 40px;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 50% at 20% 30%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 80% 70%, rgba(107,26,26,0.18) 0%, transparent 70%);
+  }
+
+  .cover-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .cover-ornament {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 14vw, 180px);
+    color: var(--bone);
+    letter-spacing: 0.05em;
+    line-height: 0.9;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-title span {
+    display: block;
+    color: var(--gold);
+  }
+
+  .cover-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.5vw, 26px);
+    color: var(--fog);
+    margin-top: 30px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+  }
+
+  .cover-line {
+    width: 120px;
+    height: 1px;
+    background: var(--gold);
+    margin: 40px auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(245,240,232,0.4);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-indicator::after {
+    content: '↓';
+    font-size: 20px;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* TOC */
+  .toc {
+    background: var(--ink);
+    color: var(--bone);
+    padding: 100px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .toc::before {
+    content: 'INDEX';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 160px;
+    color: rgba(201,168,76,0.04);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .toc-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 50px;
+  }
+
+  .toc-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: var(--bone);
+    margin-bottom: 60px;
+    letter-spacing: 0.05em;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2px;
+    max-width: 1200px;
+  }
+
+  .toc-item {
+    padding: 20px 24px;
+    border: 1px solid rgba(201,168,76,0.15);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .toc-item:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+  }
+
+  .toc-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .toc-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--bone);
+  }
+
+  /* CHAPTER FRAMEWORK */
+  .chapter {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* CHAPTER HEADER STYLES */
+  .ch-header {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 80px 80px 60px;
+    position: relative;
+  }
+
+  .ch-header.dark { background: var(--ink); }
+  .ch-header.rust { background: var(--crimson); }
+  .ch-header.slate { background: var(--slate); }
+  .ch-header.sage { background: var(--sage); }
+  .ch-header.gold-bg { background: #1c1610; }
+
+  .ch-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 20vw, 240px);
+    position: absolute;
+    right: -10px;
+    bottom: -20px;
+    line-height: 1;
+    opacity: 0.06;
+    letter-spacing: -0.05em;
+    color: var(--bone);
+    pointer-events: none;
+  }
+
+  .ch-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .ch-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 100px);
+    color: var(--bone);
+    letter-spacing: 0.03em;
+    line-height: 0.95;
+    max-width: 900px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ch-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(20px, 2.5vw, 26px);
+    color: rgba(245,240,232,0.65);
+    margin-top: 24px;
+    max-width: 700px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* BODY SECTIONS */
+  .section {
+    padding: 80px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-wide {
+    padding: 80px 80px;
+  }
+
+  @media (max-width: 768px) {
+    .section, .section-wide { padding: 50px 30px; }
+    .ch-header { padding: 50px 30px 40px; }
+    .toc { padding: 60px 30px; }
+  }
+
+  /* TYPOGRAPHY */
+  .lead {
+    font-size: clamp(20px, 2.2vw, 26px);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--slate);
+    margin-bottom: 40px;
+  }
+
+  .body-text {
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.85;
+    color: #2a2520;
+    margin-bottom: 28px;
+  }
+
+  .body-text + .body-text { margin-top: 0; }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    margin: 60px 0 24px;
+    line-height: 1;
+  }
+
+  h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 2.5vw, 30px);
+    font-weight: 600;
+    color: var(--ink);
+    margin: 40px 0 16px;
+    font-style: italic;
+  }
+
+  /* QUOTES */
+  .pullquote {
+    border-left: 3px solid var(--gold);
+    padding: 30px 0 30px 40px;
+    margin: 50px 0;
+  }
+
+  .pullquote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(22px, 2.8vw, 32px);
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .pullquote cite {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-top: 16px;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  .blockquote-dark {
+    background: var(--ink);
+    color: var(--bone);
+    padding: 60px 80px;
+    margin: 60px 0;
+    position: relative;
+  }
+
+  .blockquote-dark::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 200px;
+    color: var(--gold);
+    opacity: 0.15;
+    position: absolute;
+    top: -30px;
+    left: 40px;
+    line-height: 1;
+  }
+
+  .blockquote-dark p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 300;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+
+  .blockquote-dark cite {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-top: 24px;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  .quote-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2px;
+    margin: 60px 0;
+  }
+
+  .quote-card {
+    background: var(--ink);
+    padding: 48px 40px;
+    position: relative;
+  }
+
+  .quote-card:nth-child(2) { background: var(--crimson); }
+  .quote-card:nth-child(3) { background: var(--slate); }
+  .quote-card:nth-child(4) { background: var(--sage); }
+  .quote-card:nth-child(5) { background: #1c1610; }
+  .quote-card:nth-child(6) { background: var(--deep); }
+
+  .quote-card p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 1.8vw, 22px);
+    color: var(--bone);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .quote-card .qmark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: var(--gold);
+    opacity: 0.3;
+    line-height: 1;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  /* CALLOUT BOXES */
+  .callout {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.03) 100%);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 40px 50px;
+    margin: 50px 0;
+    position: relative;
+  }
+
+  .callout::before {
+    content: attr(data-label);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    position: absolute;
+    top: -8px;
+    left: 30px;
+    background: var(--bone);
+    padding: 0 10px;
+  }
+
+  .callout p {
+    font-size: clamp(15px, 1.3vw, 18px);
+    color: var(--slate);
+    line-height: 1.8;
+  }
+
+  /* LISTS */
+  .strategy-list {
+    list-style: none;
+    margin: 30px 0 40px;
+  }
+
+  .strategy-list li {
+    padding: 16px 0 16px 30px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    font-size: clamp(15px, 1.3vw, 18px);
+    color: #2a2520;
+    position: relative;
+    line-height: 1.7;
+  }
+
+  .strategy-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* FRAMEWORK GRIDS */
+  .framework-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2px;
+    margin: 40px 0;
+  }
+
+  .framework-item {
+    padding: 30px 28px;
+    background: var(--ink);
+  }
+
+  .framework-item:nth-child(even) { background: #151515; }
+
+  .fi-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .fi-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: var(--bone);
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  .fi-text {
+    font-size: 14px;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.6;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+
+  /* DIVIDERS */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 60px 0;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .divider span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* BIG STAT / CALLOUT NUMBER */
+  .big-stat {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 14vw, 160px);
+    color: var(--gold);
+    opacity: 0.2;
+    line-height: 1;
+    margin: 0;
+  }
+
+  /* DARK SECTIONS */
+  .dark-section {
+    background: var(--ink);
+    color: var(--bone);
+    padding: 100px 80px;
+  }
+
+  .dark-section .strategy-list li {
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    color: #e8e2d8;
+  }
+
+  .dark-section .strategy-list li strong {
+    color: var(--gold);
+  }
+  .dark-section h3 { color: var(--fog); }
+  .dark-section .body-text { color: rgba(245,240,232,0.75); }
+  .dark-section .lead { color: rgba(245,240,232,0.85); }
+
+  /* HORIZONTAL RULE */
+  hr.gold { border: none; border-top: 1px solid var(--gold); opacity: 0.3; margin: 50px 0; }
+
+  /* FULL-BLEED QUOTE */
+  .full-quote {
+    background: var(--gold);
+    padding: 100px 80px;
+    text-align: center;
+  }
+
+  .full-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 300;
+    color: var(--ink);
+    max-width: 1000px;
+    margin: 0 auto;
+    line-height: 1.4;
+  }
+
+  /* MATRICES */
+  .matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    margin: 40px 0;
+    aspect-ratio: 1.4;
+    max-height: 500px;
+  }
+
+  .matrix-cell {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .matrix-cell:nth-child(1) { background: #1a1f2e; }
+  .matrix-cell:nth-child(2) { background: var(--slate); }
+  .matrix-cell:nth-child(3) { background: var(--crimson); }
+  .matrix-cell:nth-child(4) { background: var(--sage); }
+
+  .mc-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .mc-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--bone);
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+  }
+
+  .mc-text {
+    font-size: 14px;
+    color: rgba(245,240,232,0.65);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 60px;
+    margin: 40px 0;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 50px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -52px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--gold);
+    background: var(--bone);
+    border-radius: 50%;
+  }
+
+  .ti-era {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .ti-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+  }
+
+  .ti-text {
+    font-size: clamp(15px, 1.3vw, 17px);
+    color: #2a2520;
+    line-height: 1.75;
+  }
+
+  /* PRINCIPLES */
+  .principle {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+    align-items: start;
+  }
+
+  .p-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: var(--gold);
+    opacity: 0.4;
+    line-height: 1;
+  }
+
+  .p-content h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 1.8vw, 22px);
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .p-content p {
+    font-size: clamp(14px, 1.2vw, 17px);
+    color: #3a3530;
+    line-height: 1.75;
+  }
+
+  /* FULL BLEED DARK */
+  .dark-quote-band {
+    background: var(--deep);
+    padding: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .dqb-left {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 80px);
+    color: var(--bone);
+    line-height: 0.95;
+    letter-spacing: 0.03em;
+  }
+
+  .dqb-left span { color: var(--gold); }
+
+  .dqb-right {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 1.8vw, 22px);
+    color: rgba(245,240,232,0.7);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .dark-quote-band { grid-template-columns: 1fr; padding: 50px 30px; }
+    .dark-section { padding: 60px 30px; }
+    .full-quote { padding: 60px 30px; }
+    .blockquote-dark { padding: 40px 30px; }
+  }
+
+  /* FINAL PAGE */
+  .final-cover {
+    min-height: 100vh;
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,168,76,0.07) 0%, transparent 70%);
+  }
+
+  .fc-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(60px, 12vw, 140px);
+    color: var(--bone);
+    letter-spacing: 0.1em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .fc-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 24px);
+    color: var(--gold);
+    margin-top: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .fc-final-quote {
+    max-width: 700px;
+    margin-top: 60px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 24px);
+    color: rgba(245,240,232,0.55);
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin: 40px 0;
+  }
+
+  @media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; }
+    .matrix { aspect-ratio: unset; max-height: unset; }
+  }
+
+  .accent-bar {
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin-bottom: 40px;
+  }
+
+  .chapter-closer {
+    background: var(--bone);
+    padding: 60px 80px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: rgba(0,0,0,0.25);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    .chapter-closer { padding: 40px 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     COVER
+═══════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-ornament">A Complete Codex · Strategic Intelligence · 2025 Edition</div>
+  <div class="cover-title">
+    THE<br>
+    <span>STRATE</span>GIST'S<br>
+    CODEX
+  </div>
+  <div class="cover-subtitle">
+    On the art, science, and philosophy of thinking several moves ahead in a world that rewards only the prepared
+  </div>
+  <div class="cover-line"></div>
+  <div class="cover-meta">A Complete Guide to Strategic Mastery · From Ancient Principles to AI-Era Thinking</div>
+  <div class="scroll-indicator"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TABLE OF CONTENTS
+═══════════════════════════════════════════ -->
+<div class="toc" id="toc">
+  <div class="toc-label">Contents</div>
+  <div class="toc-title">What Lies Ahead</div>
+  <div class="toc-grid">
+    <a href="#ch1" class="toc-item"><span class="toc-num">01 ——</span><span class="toc-name">The Nature of Strategy</span></a>
+    <a href="#ch2" class="toc-item"><span class="toc-num">02 ——</span><span class="toc-name">The Foundations of Strategic Thinking</span></a>
+    <a href="#ch3" class="toc-item"><span class="toc-num">03 ——</span><span class="toc-name">Ancient Wisdom, Modern Edge</span></a>
+    <a href="#ch4" class="toc-item"><span class="toc-num">04 ——</span><span class="toc-name">The Architecture of Decisions</span></a>
+    <a href="#ch5" class="toc-item"><span class="toc-num">05 ——</span><span class="toc-name">Competitive Strategy</span></a>
+    <a href="#ch6" class="toc-item"><span class="toc-num">06 ——</span><span class="toc-name">Strategy Under Uncertainty</span></a>
+    <a href="#ch7" class="toc-item"><span class="toc-num">07 ——</span><span class="toc-name">The Psychology of the Strategist</span></a>
+    <a href="#ch8" class="toc-item"><span class="toc-num">08 ——</span><span class="toc-name">Long Game Thinking</span></a>
+    <a href="#ch9" class="toc-item"><span class="toc-num">09 ——</span><span class="toc-name">Strategy in the Age of AI</span></a>
+    <a href="#ch10" class="toc-item"><span class="toc-num">10 ——</span><span class="toc-name">The Strategist's Personal Code</span></a>
+    <a href="#ch11" class="toc-item"><span class="toc-num">11 ——</span><span class="toc-name">102 Strategic Maxims</span></a>
+    <a href="#final" class="toc-item"><span class="toc-num">— ——</span><span class="toc-name">Coda: The Unfinished Game</span></a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 1: THE NATURE OF STRATEGY
+═══════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-header dark">
+    <div class="ch-num">01</div>
+    <div class="ch-label">Chapter One</div>
+    <div class="ch-title">The Nature<br>of Strategy</div>
+    <div class="ch-intro">Before you can think strategically, you must understand what strategy actually is — and what it is not.</div>
+  </div>
+
+  <div class="section">
+    <p class="lead">Most people mistake strategy for planning. Planning is a spreadsheet. Strategy is a worldview with a spine.</p>
+
+    <p class="body-text">Strategy is the art of making choices under constraint — choosing what to pursue, what to abandon, and what to deliberately ignore. It is the difference between being swept along by circumstance and being the architect of your own position in the world. To think strategically is to accept that you cannot do everything, be everything, or win every battle. It is to embrace the radical act of focus.</p>
+
+    <p class="body-text">The word itself comes from the Greek <em>strategos</em> — the general who sees the whole battlefield while others see only the ground beneath their feet. The general does not fight every skirmish. The general shapes the conditions under which skirmishes become inevitable victories.</p>
+
+    <div class="pullquote">
+      <p>"Strategy is not the plan. It is the thinking behind the plan — and more importantly, the thinking that survives the plan's collapse."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>What Strategy Is Not</h2>
+
+    <p class="body-text">Strategy is not a roadmap. A roadmap assumes the roads stay where they are. Strategy assumes the road will flood, fork, and sometimes vanish entirely — and has already prepared for each possibility.</p>
+
+    <p class="body-text">Strategy is not ambition dressed in a suit. Ambition is the fuel; strategy is the engine. You can have all the ambition in the world and run it through a broken engine, spending enormous energy going nowhere in particular, very fast.</p>
+
+    <p class="body-text">Strategy is not clever tactics accumulated over time. Many tactically brilliant people have lost strategically because they optimized locally while the global landscape shifted beneath them. They won skirmish after skirmish and still lost the war.</p>
+
+    <div class="callout" data-label="Core Distinction">
+      <p><strong>Tactics</strong> are about how you do something. <strong>Operations</strong> are about the sequencing of those actions. <strong>Strategy</strong> is about why you are doing it at all — and whether the entire enterprise is aimed at the right destination.</p>
+    </div>
+
+    <h2>The Three Horizons of Strategic Thought</h2>
+
+    <div class="framework-grid">
+      <div class="framework-item">
+        <span class="fi-num">H1 — NOW</span>
+        <div class="fi-title">Defend & Extend</div>
+        <p class="fi-text">Protecting what works today. Optimizing the current engine. The least strategic of the three — but neglect it and you lose the right to play in the others.</p>
+      </div>
+      <div class="framework-item">
+        <span class="fi-num">H2 — EMERGING</span>
+        <div class="fi-title">Build & Transition</div>
+        <p class="fi-text">Investing in what will become important. Experimenting before the market demands it. The bridge between the world as it is and the world as it is becoming.</p>
+      </div>
+      <div class="framework-item">
+        <span class="fi-num">H3 — FUTURE</span>
+        <div class="fi-title">Seed & Explore</div>
+        <p class="fi-text">Options, ideas, and bets on distant futures. Where the most valuable strategic thinking happens — and where most organizations are completely blind.</p>
+      </div>
+    </div>
+
+    <p class="body-text">The profound tension in strategic leadership is that the skills required to excel in Horizon 1 are almost exactly opposed to the skills required in Horizon 3. Organizations — and individuals — that master only one horizon will eventually be destroyed by the others. The strategy is to hold all three simultaneously, with appropriate but shifting weight.</p>
+
+    <div class="blockquote-dark">
+      <p>"The strategist who lives only in the present is a tactician with a title. The strategist who lives only in the future is a dreamer with a plan. Mastery lives at the uncomfortable intersection of both."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>Strategy as Commitment</h2>
+
+    <p class="body-text">One of the most counterintuitive truths about strategy is that it derives its power from what it rules out. A strategy that says "we will pursue everything" is not a strategy — it is an abdication of strategy. The discipline of saying no is the very muscle that gives strategy its force.</p>
+
+    <p class="body-text">When a company, a nation, or a person commits irrevocably to a path, something remarkable happens: their attention sharpens, their resources concentrate, and their creativity — freed from the paralysis of infinite options — accelerates. Commitment is not the end of strategic flexibility. It is the precondition for strategic excellence.</p>
+
+    <ul class="strategy-list">
+      <li>Strategy creates asymmetric focus — more energy on fewer things — which creates asymmetric returns.</li>
+      <li>Strategy is a theory of cause and effect: if we do X in context Y, result Z becomes probable.</li>
+      <li>Strategy must be revisable without being unstable. The willingness to update without the habit of abandoning.</li>
+      <li>Great strategy is often invisible to competitors — it looks like stubbornness or strange priorities until it doesn't.</li>
+      <li>The hardest strategic choices are not between good and bad, but between good and good.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 2: FOUNDATIONS
+═══════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-header rust">
+    <div class="ch-num">02</div>
+    <div class="ch-label">Chapter Two</div>
+    <div class="ch-title">The Foundations<br>of Strategic<br>Thinking</div>
+    <div class="ch-intro">Before frameworks, before models — the mental architecture that makes a mind genuinely strategic.</div>
+  </div>
+
+  <div class="section">
+    <p class="lead">Strategic thinking is not a skill. It is a stance — a particular orientation toward reality, time, and cause-and-effect that, once adopted, reshapes how every problem appears.</p>
+
+    <p class="body-text">There is a version of intelligence that solves the problem as stated. And then there is strategic intelligence — which first questions whether the stated problem is the real problem at all. The strategist's first discipline is diagnosis: the patient, rigorous effort to understand what is actually happening before deciding what to do about it.</p>
+
+    <div class="pullquote">
+      <p>"Speed of diagnosis is the greatest competitive advantage in a complex world. Not speed of execution — speed of understanding what, exactly, deserves to be executed upon."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>The Seven Disciplines of the Strategic Mind</h2>
+
+    <div class="principle">
+      <div class="p-num">1</div>
+      <div class="p-content">
+        <h4>Systems Perception</h4>
+        <p>The strategic mind sees networks, not nodes. It asks not "what happened?" but "what system produced this outcome — and what will that system produce next?" Every event is a symptom; the strategist is always looking for the disease.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">2</div>
+      <div class="p-content">
+        <h4>Second-Order Thinking</h4>
+        <p>First-order thinking asks: what are the immediate consequences of this action? Second-order thinking asks: what are the consequences of those consequences? The most dangerous strategic errors are made by people who stopped thinking at the first order. The most impressive strategic victories are won by people who saw three orders out.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">3</div>
+      <div class="p-content">
+        <h4>Inversion</h4>
+        <p>The habit of approaching a problem backward — not "how do I succeed?" but "what does failure look like, and how do I avoid it?" Inversion is the strategic mind's immune system. It finds the hidden risks before they find you.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">4</div>
+      <div class="p-content">
+        <h4>Probabilistic Calibration</h4>
+        <p>Great strategists do not think in certainties. They think in probability distributions. They hold multiple futures in mind simultaneously, allocating attention and resources proportionally to likelihood and impact. They are never surprised, because they already have a plan for the unlikely.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">5</div>
+      <div class="p-content">
+        <h4>Temporal Flexibility</h4>
+        <p>The strategic mind can zoom from the present moment to the twenty-year arc in a single breath — and back again. It does not confuse urgency with importance. It can hold a long-term commitment steady while making sharp tactical pivots in the short term.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">6</div>
+      <div class="p-content">
+        <h4>Honest Reckoning with Reality</h4>
+        <p>The strategic mind is allergic to comforting fictions. It will look at an uncomfortable truth about its own position — weakness, vulnerability, irrelevance — and force itself to sit with that discomfort until it yields useful insight. Strategy built on wishful thinking is the most expensive form of self-deception.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">7</div>
+      <div class="p-content">
+        <h4>Asymmetric Attention</h4>
+        <p>Strategic thinkers are not uniformly curious. They deliberately over-invest attention in areas where insight is most scarce, most leveraged, and most likely to compound. They ignore what is popular and scrutinize what is overlooked. The strategic edge lives in the gap between what everyone watches and what no one sees.</p>
+      </div>
+    </div>
+
+    <div class="divider"><span>Mental Models</span></div>
+
+    <h2>Mental Models That Built Empires</h2>
+
+    <p class="body-text">Every great strategist runs on a small library of mental models — compact structures for thinking that apply across many domains. These are not formulas or algorithms. They are lenses, each one revealing a different layer of the same reality.</p>
+
+    <div class="two-col">
+      <div>
+        <h3>The Map Is Not the Territory</h3>
+        <p class="body-text">All strategic plans are maps. Maps are simplifications — they leave things out by design. The strategist who mistakes their map for the actual territory will be ambushed by everything the map chose to omit. Keep the map. Distrust it. Update it constantly.</p>
+
+        <h3>The Overton Window</h3>
+        <p class="body-text">The range of ideas that a system currently considers acceptable. Strategic mastery includes understanding where this window sits — and knowing how to move it. The boldest strategic moves redefine what is considered possible, creating space for actions that previously seemed radical.</p>
+      </div>
+      <div>
+        <h3>Regret Minimization</h3>
+        <p class="body-text">Project yourself to the end of your life and ask: which decision will I regret more? The framework, attributed to Jeff Bezos, captures a profound strategic truth: long-term regret is a more reliable guide than short-term fear. The strategist optimizes not for immediate comfort but for eventual peace of mind.</p>
+
+        <h3>The Red Queen Effect</h3>
+        <p class="body-text">From Lewis Carroll via evolutionary biology: you have to run as fast as you can just to stay in the same place. In competitive systems, standing still means falling behind. The strategic implication is that the minimum viable rate of improvement is whatever your competitors are achieving.</p>
+      </div>
+    </div>
+
+    <div class="blockquote-dark">
+      <p>"Every mental model you add to your repertoire is not just a new tool — it is a new set of eyes. The strategist with ten models sees ten versions of every problem. The person with one sees only what that one can reveal."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 3: ANCIENT WISDOM
+═══════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-header slate">
+    <div class="ch-num">03</div>
+    <div class="ch-label">Chapter Three</div>
+    <div class="ch-title">Ancient Wisdom,<br>Modern Edge</div>
+    <div class="ch-intro">The oldest strategic texts are not museum pieces. They are active intelligence.</div>
+  </div>
+
+  <div class="section">
+    <p class="lead">The greatest strategic minds of antiquity were not primitive. They were operating with the same fundamental human nature, the same political dynamics, the same competitive pressures that govern the twenty-first century. The weapons changed. The game did not.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="ti-era">~500 BCE · China</div>
+        <div class="ti-title">Sun Tzu & The Art of War</div>
+        <p class="ti-text">The most widely read strategic text in history contains a teaching that most readers miss: Sun Tzu's supreme achievement is not winning battles. It is winning without fighting. The ideal strategy renders violence unnecessary by making the outcome so obvious to the opponent that resistance seems futile. This idea — shaping the opponent's perception of the game before the game begins — is as relevant in boardrooms as it was on battlefields.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="ti-era">~380 BCE · Greece</div>
+        <div class="ti-title">Plato & The Philosopher-Strategist</div>
+        <p class="ti-text">Plato's Allegory of the Cave offers a strategy parable: most actors in any competitive system are responding to shadows — the appearance of things, lagging indicators, surface-level signals. The strategic advantage belongs to those who find a way to see what produces the shadows. The philosopher who leaves the cave and sees the sun directly holds an asymmetric informational edge over everyone still debating the shadows on the wall.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="ti-era">~350 BCE · Macedonia</div>
+        <div class="ti-title">Alexander & Strategic Velocity</div>
+        <p class="ti-text">Alexander the Great's deepest strategic innovation was not military formation but decision speed. His famous oblique attack, the Companion cavalry, and his willingness to march faster than anyone thought possible — these created a decision loop so compressed that opponents were perpetually reacting to what had already happened, never to what was actually happening. He won not by being stronger, but by being temporally ahead.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="ti-era">1513 CE · Florence</div>
+        <div class="ti-title">Machiavelli & The Honest Strategist</div>
+        <p class="ti-text">Machiavelli's genius was not his immorality — it was his commitment to strategic honesty. <em>The Prince</em> offers the first systematic analysis of how power actually works, stripped of the comforting fictions that made previous political philosophy useless. The modern lesson: strategic clarity requires the courage to see the system as it is, not as you wish it were.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="ti-era">1645 CE · Japan</div>
+        <div class="ti-title">Miyamoto Musashi & The Empty Mind</div>
+        <p class="ti-text">The legendary swordsman's <em>Book of Five Rings</em> introduces the concept of <em>mushin</em> — the empty mind. A mind cluttered with assumptions, past patterns, and anticipated outcomes cannot respond with full agility to what is actually in front of it. The highest strategic execution requires emptying the mind of its models precisely so that it can apply them with perfect, unprejudiced precision.</p>
+      </div>
+    </div>
+
+    <div class="quote-grid">
+      <div class="quote-card">
+        <span class="qmark">"</span>
+        <p>"The supreme art of war is to subdue the enemy without fighting." — What Sun Tzu understood that most never will: the fight is always a failure of positioning.</p>
+      </div>
+      <div class="quote-card">
+        <span class="qmark">"</span>
+        <p>"The fox has many tricks. The hedgehog has but one. But that one is the best of all." — Ralph Waldo Emerson on focused strategy versus scattered cleverness.</p>
+      </div>
+      <div class="quote-card">
+        <span class="qmark">"</span>
+        <p>"In preparing for battle I have always found that plans are useless, but planning is indispensable." — Eisenhower's elegant articulation of strategy's true value.</p>
+      </div>
+    </div>
+
+    <h2>What the Ancients Knew About Information</h2>
+
+    <p class="body-text">Perhaps the most enduring lesson from ancient strategic thought is about information asymmetry. Sun Tzu devoted extraordinary attention to intelligence — knowing the enemy's disposition, terrain, weather, and internal tensions before any engagement. He understood that superior information, rigorously gathered and correctly interpreted, is a force multiplier that no amount of brute strength can overcome.</p>
+
+    <div class="callout" data-label="Ancient Principle, Modern Application">
+      <p>The company that understands its customer's unarticulated needs before competitors even know those needs exist has achieved strategic surprise through intelligence — the oldest competitive advantage in human history. The tools are new. The principle is three thousand years old.</p>
+    </div>
+
+    <p class="body-text">The Stoics added a crucial layer to ancient strategic wisdom: the discipline of separating what is within your control from what is not, and directing full strategic energy only toward the former. Marcus Aurelius, who governed the Roman Empire at the height of its complexity, kept returning in his private journals to this principle. His strategic calm in the face of the empire's cascading crises came not from indifference, but from this relentless focus on the controllable.</p>
+  </div>
+</div>
+
+<!-- FULL BLEED QUOTE -->
+<div class="full-quote">
+  <p>"The greatest strategic error of modern times is assuming that ancient wisdom was primitive wisdom. The ancients had less technology and more time — time to think, to observe, to distill. We have more technology and less time. We could use their distillations."</p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 4: ARCHITECTURE OF DECISIONS
+═══════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-header gold-bg">
+    <div class="ch-num">04</div>
+    <div class="ch-label">Chapter Four</div>
+    <div class="ch-title">The Architecture<br>of Decisions</div>
+    <div class="ch-intro">Strategy is ultimately a continuous sequence of choices. The architecture of those choices determines everything.</div>
+  </div>
+
+  <div class="section">
+    <p class="lead">Every strategic outcome is the accumulated result of thousands of decisions, most of them made quickly, under incomplete information, by humans with cognitive biases and emotional interference. Understanding the architecture of decision-making is understanding the hidden infrastructure of strategy itself.</p>
+
+    <h2>The Decision Stack</h2>
+
+    <p class="body-text">Decisions exist at multiple levels, each constraining and enabling what is possible at the levels below it. Confusing the levels is one of the most common strategic errors — spending senior leadership energy on operational choices while leaving strategic choices unmade, or conversely, making strategic pronouncements that conflict with the operational realities of the organization making them.</p>
+
+    <div class="framework-grid">
+      <div class="framework-item">
+        <span class="fi-num">LEVEL 01</span>
+        <div class="fi-title">Identity Decisions</div>
+        <p class="fi-text">Who are we? What do we stand for? What will we never do? These decisions are so foundational they are rarely recognized as decisions at all. They operate as invisible constraints on everything else.</p>
+      </div>
+      <div class="framework-item">
+        <span class="fi-num">LEVEL 02</span>
+        <div class="fi-title">Strategic Decisions</div>
+        <p class="fi-text">Where will we compete? How will we win? What is our theory of advantage? These are made infrequently but carry enormous long-term weight. They are the choices that define the playing field.</p>
+      </div>
+      <div class="framework-item">
+        <span class="fi-num">LEVEL 03</span>
+        <div class="fi-title">Portfolio Decisions</div>
+        <p class="fi-text">What will we invest in? What will we divest? How do we allocate finite resources across competing priorities? These translate strategy into action and reveal what an organization truly values.</p>
+      </div>
+      <div class="framework-item">
+        <span class="fi-num">LEVEL 04</span>
+        <div class="fi-title">Operational Decisions</div>
+        <p class="fi-text">How do we execute? What is the sequence? What are the dependencies? These are high-frequency, lower-weight decisions that compound over time into either organizational excellence or organizational drift.</p>
+      </div>
+    </div>
+
+    <div class="pullquote">
+      <p>"Most organizations have excellent operational decision-making and almost no strategic decision-making. They are running a brilliant race in the wrong direction."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>Decision Velocity vs. Decision Quality</h2>
+
+    <p class="body-text">One of the most important strategic tensions in modern organizations is between the speed of decision-making and the quality of decision-making. Move too slowly, and opportunities vanish, competitors advance, and the organization loses the habit of decisive action. Move too quickly, and you accumulate strategic errors that compound into crises.</p>
+
+    <p class="body-text">Jeff Bezos's distinction between "one-way door" and "two-way door" decisions captures the solution elegantly. One-way-door decisions are irreversible or very expensive to reverse — they deserve deliberate, careful process. Two-way-door decisions are easily reversible — they should be made quickly, by the most relevant person available, and often. The strategic error is applying the same process to both.</p>
+
+    <div class="dark-quote-band">
+      <div class="dqb-left">FAST<br><span>ON THE</span><br>REVERSIBLE.<br><span>SLOW ON</span><br>THE FOREVER.</div>
+      <div class="dqb-right">The discipline of sorting decisions into the right category before choosing the decision-making process is itself one of the highest-leverage strategic behaviors. Most urgency is manufactured. Most permanence is underestimated.</div>
+    </div>
+
+    <h2>Cognitive Biases That Destroy Strategy</h2>
+
+    <p class="body-text">The human brain did not evolve to think strategically. It evolved to survive in small social groups in an environment that was largely predictable on short timescales. Strategic thought — long timescales, complex systems, probabilistic futures — runs against most of the brain's default settings. Understanding the biases is not optional for the serious strategist.</p>
+
+    <ul class="strategy-list">
+      <li><strong>Confirmation Bias:</strong> The tendency to seek and weigh information that confirms existing beliefs. The strategic antidote is to actively seek out the strongest possible argument against your current strategy, and to institutionalize devil's advocacy.</li>
+      <li><strong>Availability Heuristic:</strong> Overweighting recent or dramatic events. The most memorable failure is not necessarily the most probable failure. Strategic scenario planning must reach beyond the emotionally available.</li>
+      <li><strong>Sunk Cost Fallacy:</strong> Continuing to invest in a failing strategy because of past investment. The past investment is gone. The decision is always about future value versus future cost. The emotionally hardest and strategically most important move is often to cut the sunk cost.</li>
+      <li><strong>Planning Fallacy:</strong> Consistently underestimating time, costs, and risks while overestimating benefits. The cure is reference class forecasting — looking at how long similar projects actually took, not how long this one feels like it should.</li>
+      <li><strong>Status Quo Bias:</strong> The preference for the current state as a baseline. Change feels like loss even when it is gain. The strategic status quo is almost never neutral — it is either quietly compounding advantage or quietly compounding vulnerability.</li>
+      <li><strong>Narrative Fallacy:</strong> Constructing coherent stories about the past that were not actually predictable, then using that false hindsight to claim predictability about the future. The strategist must distinguish between a good story and a good prediction.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 5: COMPETITIVE STRATEGY
+═══════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-header dark">
+    <div class="ch-num">05</div>
+    <div class="ch-label">Chapter Five</div>
+    <div class="ch-title">Competitive<br>Strategy</div>
+    <div class="ch-intro">On how to build positions that are genuinely defensible in a world where every advantage eventually erodes.</div>
+  </div>
+
+  <div class="dark-section">
+    <p class="lead">Competitive strategy is the art of building and defending an advantaged position in a contested space. The key word is "building" — advantages are engineered, not found. And they must be continuously re-engineered, because the moment a strategy succeeds, it attracts the imitation that will eventually destroy it.</p>
+
+    <h2>The Sources of Durable Advantage</h2>
+
+    <p class="body-text">Michael Porter established that competitive advantage flows from two sources: cost leadership (doing the same thing cheaper) or differentiation (doing a different thing that the market values). What Porter's framework sometimes obscures is that the most powerful competitive advantages come from systems, not individual moves — from the way multiple strategic choices reinforce each other so tightly that imitating any one of them in isolation achieves nothing.</p>
+
+    <p class="body-text">Warren Buffett's concept of the "moat" adds a crucial temporal dimension: not just do you have an advantage now, but does that advantage grow stronger over time as it is exercised? The best moats are self-reinforcing. Network effects, where value increases with each additional user, represent perhaps the purest modern example of a self-compounding advantage.</p>
+
+    <div class="pullquote">
+      <p>"The strongest competitive position is one your competitor cannot attack without destroying the very thing that makes their own business work."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>The Five Competitive Moves</h2>
+
+    <div class="framework-grid">
+      <div class="framework-item" style="background:#1c1c2e">
+        <span class="fi-num">MOVE 01</span>
+        <div class="fi-title">Outpace</div>
+        <p class="fi-text">Move faster than the environment can respond. Compress your decision loop until competitors are always reacting to your last move, never your current one. Speed is a durable competitive advantage only if it is systematic, not accidental.</p>
+      </div>
+      <div class="framework-item" style="background:#1f1015">
+        <span class="fi-num">MOVE 02</span>
+        <div class="fi-title">Outflank</div>
+        <p class="fi-text">Compete on dimensions your rivals have not optimized for. Find the axis of competition they have neglected and build dominance there before they notice it exists. The blue ocean of competitive strategy.</p>
+      </div>
+      <div class="framework-item" style="background:#0f1a18">
+        <span class="fi-num">MOVE 03</span>
+        <div class="fi-title">Outbuild</div>
+        <p class="fi-text">Construct capabilities so deep that they become inaccessible to competitors through cost, time, or talent constraints. Not just a better product — an infrastructure for generating better products continuously.</p>
+      </div>
+      <div class="framework-item" style="background:#1a1505">
+        <span class="fi-num">MOVE 04</span>
+        <div class="fi-title">Outlearn</div>
+        <p class="fi-text">Accumulate knowledge about your customers, your craft, and your environment faster than your competitors. The company that learns fastest sets the terms of competition. Data, yes — but more fundamentally, the organizational capacity to convert data into insight into action.</p>
+      </div>
+      <div class="framework-item" style="background:#1a1020">
+        <span class="fi-num">MOVE 05</span>
+        <div class="fi-title">Reframe</div>
+        <p class="fi-text">Change the game entirely. Define a new category where your strengths are the definition of excellence and your competitors' strengths are irrelevant. The most powerful competitive move is the one that makes competition itself look misguided.</p>
+      </div>
+    </div>
+
+    <div class="blockquote-dark" style="background:#111">
+      <p>"The most dangerous competitor is not the one who plays your game better. It is the one who is quietly building an entirely different game — and will invite you to play only when the invitation is a formality."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Positioning: The Art of Being Unmistakably Yourself</h2>
+
+    <p class="body-text">Competitive positioning is about building a perception in the minds of your market that is so clear, so distinctive, and so compelling that the very category you occupy feels like it was designed to describe you specifically. It is not marketing language. It is the strategic architecture of how you choose to be useful — and to whom.</p>
+
+    <p class="body-text">The critical strategic insight about positioning is that it must be built on genuine substance. A position unsupported by actual capability is a lie with a shelf life. But a genuine capability without a clear position is a treasure no one can find. The strategy is both: build the capability, then position with precision.</p>
+
+    <div class="matrix">
+      <div class="matrix-cell">
+        <div class="mc-label">Quadrant 1</div>
+        <div class="mc-title">Best Position,<br>No Capability</div>
+        <div class="mc-text">Marketing without substance. Accelerates failure by attracting customers you then disappoint.</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="mc-label">Quadrant 2</div>
+        <div class="mc-title">Best Position,<br>Great Capability</div>
+        <div class="mc-text">The ideal. Clear identity aligned with genuine excellence. Compounding advantage.</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="mc-label">Quadrant 3</div>
+        <div class="mc-title">No Position,<br>No Capability</div>
+        <div class="mc-text">Undifferentiated and underperforming. Survival depends on cost or luck, both unreliable.</div>
+      </div>
+      <div class="matrix-cell">
+        <div class="mc-label">Quadrant 4</div>
+        <div class="mc-title">No Position,<br>Great Capability</div>
+        <div class="mc-text">Hidden excellence. The market cannot find what it cannot see. Urgently needs positioning work.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 6: UNCERTAINTY
+═══════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-header sage">
+    <div class="ch-num">06</div>
+    <div class="ch-label">Chapter Six</div>
+    <div class="ch-title">Strategy Under<br>Uncertainty</div>
+    <div class="ch-intro">Certainty is a trap. The strategist who demands it before acting will never act. The strategist who ignores it will act catastrophically.</div>
+  </div>
+
+  <div class="section">
+    <p class="lead">We have always lived in an uncertain world. What has changed is the velocity of uncertainty — the rate at which the known unknowns multiply, and the frequency with which the unknown unknowns materialize as disruptions.</p>
+
+    <p class="body-text">The traditional response to uncertainty is analysis: gather more data, build more detailed models, run more scenarios. This is not wrong — but it has limits. There is a point at which additional analysis yields diminishing returns in clarity and accelerating returns in false confidence. The strategist must know where that point is and be willing to act beyond it.</p>
+
+    <div class="pullquote">
+      <p>"The amateur waits for certainty. The professional acts on the best available evidence and builds in the capacity to update. The master has designed a strategy that improves as uncertainty resolves — regardless of which way it resolves."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>The Uncertainty Stack</h2>
+
+    <p class="body-text">Not all uncertainty is equal. McKinsey's classic framework distinguishes between four levels of uncertainty, each demanding a different strategic response:</p>
+
+    <ul class="strategy-list">
+      <li><strong>Level 1 — Clear Enough Future:</strong> Sufficient certainty to recommend a definite strategy. Predict and act.</li>
+      <li><strong>Level 2 — Alternate Futures:</strong> A few discrete scenarios, each plausible. Plan for each, make bets on the most likely, hedge on the critical pivots.</li>
+      <li><strong>Level 3 — Range of Futures:</strong> Identify the key variables, understand their range, define the boundaries of possibility. Strategy must remain flexible within the cone.</li>
+      <li><strong>Level 4 — True Ambiguity:</strong> Even the key variables are uncertain. Scenarios provide no reliable guidance. Strategy must focus on building resilience, optionality, and the capacity to learn faster than the environment changes.</li>
+    </ul>
+
+    <h2>Optionality as Strategy</h2>
+
+    <p class="body-text">In high-uncertainty environments, the most valuable strategic asset is optionality — the preservation of future choices. This is the strategy of the venture portfolio, the platform business model, the modular architecture. Each preserves the ability to pursue multiple directions as clarity emerges.</p>
+
+    <p class="body-text">The danger of pure optionality strategy is perpetual deferral — maintaining so many options that none are ever exercised with full commitment. The strategic art is knowing when optionality is the appropriate response to genuine uncertainty, and when it is sophisticated-sounding avoidance of a necessary, irreversible commitment.</p>
+
+    <div class="blockquote-dark">
+      <p>"Build options in proportion to your uncertainty. Exercise options in proportion to your conviction. The strategist who confuses the two will be perpetually flexible and permanently uncommitted — a sophisticated form of paralysis."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>Scenario Planning That Actually Works</h2>
+
+    <p class="body-text">Most scenario planning exercises are elaborate descriptions of futures that never arrive and produce no useful changes in strategy. Effective scenario planning asks a different question: not "what might happen?" but "what would have to be true for this possible future to arrive — and what strategic moves look good across the widest range of plausible futures?"</p>
+
+    <p class="body-text">The scenarios that matter most are not the ones that feel plausible today. They are the ones that would be most consequential if they arrived — particularly if your organization is currently making no contingency for them. Good scenario planning deliberately seeks out the futures your organization is most comfortable dismissing.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 7: PSYCHOLOGY
+═══════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-header rust">
+    <div class="ch-num">07</div>
+    <div class="ch-label">Chapter Seven</div>
+    <div class="ch-title">The Psychology<br>of the<br>Strategist</div>
+    <div class="ch-intro">The most dangerous battlefield is interior. The greatest strategic defeats begin not in the boardroom or on the field, but in the mind.</div>
+  </div>
+
+  <div class="section">
+    <p class="lead">There is an uncomfortable truth at the center of strategic failure: most of the time, the strategist lost to themselves before they lost to anyone else. The external defeat was the echo of an internal compromise.</p>
+
+    <p class="body-text">The psychology of the strategist is not a soft supplement to the hard discipline of strategy. It is the foundation. A mind clouded by ego, fear, or wishful thinking will misread every map it draws. The strategic frameworks are only as good as the psychological clarity of the person applying them.</p>
+
+    <div class="pullquote">
+      <p>"Ego is the strategist's most loyal enemy. It will tell you that you already know, that the data doesn't apply to you, that the rules have exceptions where you are concerned. And it will do so in the most convincing voice imaginable — your own."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>The Inner Game of Strategic Leadership</h2>
+
+    <div class="two-col">
+      <div>
+        <h3>The Arrogance Trap</h3>
+        <p class="body-text">Strategic arrogance is not loud. It presents itself as confidence, experience, and pattern recognition. It says: "I've seen this before. I know how it ends." Sometimes it is right. The times it is wrong are catastrophic precisely because it was so convincingly right so many times before. The cure is mandatory curiosity — the institutional commitment to being surprised.</p>
+
+        <h3>The Fear of Being Wrong</h3>
+        <p class="body-text">Nothing paralyzes strategic action more reliably than the fear of being demonstrably wrong. Organizations and individuals whose identity is bound up in being right will contort strategy to avoid the record showing an error. They will hold failing positions, redefine success, and blame execution. The strategist with a healthy relationship to being wrong is the most dangerous strategist alive.</p>
+      </div>
+      <div>
+        <h3>The Comfort of Activity</h3>
+        <p class="body-text">Busyness feels like strategy. A full calendar feels productive. Responding to all messages feels responsive. But the strategist who is always occupied is almost never thinking strategically — because real strategic thinking requires the cognitive space that constant activity destroys. Deep thought and full schedules are mutually exclusive.</p>
+
+        <h3>The Identity Trap</h3>
+        <p class="body-text">When a strategy becomes part of the strategist's identity, it becomes almost impossible to update without the update feeling like self-betrayal. The most dangerous strategic position is one you cannot abandon because abandoning it would require you to be a different person. The strategist must hold their strategies lightly, even as they pursue them with full commitment.</p>
+      </div>
+    </div>
+
+    <div class="divider"><span>Strategic Virtues</span></div>
+
+    <h2>The Virtues of the Master Strategist</h2>
+
+    <div class="quote-grid">
+      <div class="quote-card">
+        <span class="qmark">"</span>
+        <p>"Patience is not waiting. It is knowing exactly what you are waiting for — and spending that time building the capacity to act decisively when the moment arrives."</p>
+      </div>
+      <div class="quote-card">
+        <span class="qmark">"</span>
+        <p>"The strategist's equanimity is not indifference to outcomes. It is the trained refusal to let the emotion of the moment distort the logic of the decision."</p>
+      </div>
+      <div class="quote-card">
+        <span class="qmark">"</span>
+        <p>"Intellectual humility is not modesty about your abilities. It is the ongoing willingness to discover that reality is smarter than your model of it."</p>
+      </div>
+      <div class="quote-card">
+        <span class="qmark">"</span>
+        <p>"Courage in strategy means acting with full commitment on incomplete information — and not mistaking hesitation dressed in caution for wisdom dressed in thoroughness."</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 8: THE LONG GAME
+═══════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-header dark">
+    <div class="ch-num">08</div>
+    <div class="ch-label">Chapter Eight</div>
+    <div class="ch-title">Long Game<br>Thinking</div>
+    <div class="ch-intro">The rarest and most powerful form of strategic advantage: the willingness and ability to think in decades while others think in quarters.</div>
+  </div>
+
+  <div class="section">
+    <p class="lead">The long game is not about being patient. It is about operating on a different temporal frequency than your competitors — a frequency on which entirely different opportunities become visible.</p>
+
+    <p class="body-text">In a world of quarterly earnings, viral moments, and 24-hour news cycles, the willingness to think and act on multi-year and multi-decade timescales is one of the scarcest competitive resources. It is also one of the most compoundable. The organizations and individuals willing to make investments that don't pay off for five or ten years are competing in a nearly empty field.</p>
+
+    <div class="blockquote-dark">
+      <p>"Everyone is competing in the short game. The long game is almost empty. Not because it is hard to understand — everyone understands that planting trees is valuable. But because it requires sacrificing visible, measurable short-term performance for invisible, unmeasurable future compounding. And our systems reward what they can see."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>Compound Strategy</h2>
+
+    <p class="body-text">The most powerful principle in long-game strategy is compounding — the exponential growth that occurs when returns are reinvested into the system that generates them. Compounding is typically discussed in financial terms, but it applies to every strategic resource: reputation, relationships, knowledge, organizational capability, and trust.</p>
+
+    <p class="body-text">The strategic implication of compounding is that small, consistent investments made early in a compounding resource are worth vastly more than large investments made late. This is why the most important strategic decisions are often not the most dramatic ones — they are the quiet, consistent commitments made years before anyone can see their significance.</p>
+
+    <div class="pullquote">
+      <p>"Strategic compounding is invisible in the early years. You feel like you are making no progress. The person who can tolerate the long lag between investment and result — without abandoning the investment — is the person who will eventually see exponential results that look, to everyone else, like sudden overnight success."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>Jeff Bezos and the Regret-Minimization Framework</h2>
+
+    <p class="body-text">When Jeff Bezos was deciding whether to leave his well-paying job to start what would become Amazon, he used a thought experiment he called the "regret minimization framework." He imagined himself at 80 years old looking back on his life and asked: in which scenario would I experience more regret — failing at the startup, or never having tried?</p>
+
+    <p class="body-text">The framework resets the temporal horizon of the decision. Seen from the short term, the startup looked risky and the job looked safe. Seen from eighty years out, the calculation inverted. Long-game thinking is often about finding the right temporal vantage point from which the decision becomes clear.</p>
+
+    <h2>The Cathedral Builders</h2>
+
+    <p class="body-text">The medieval builders of Europe's great cathedrals knew they would not live to see their completion. Notre Dame took nearly 200 years to build. Cologne Cathedral was under construction for over 600. The architects and master builders operated within a tradition that understood their individual contribution as a chapter in a story whose arc extended far beyond any individual lifespan.</p>
+
+    <p class="body-text">This is an extreme but useful model for long-game strategy: what would you build if you accepted that the completion would occur beyond your career, and that the credit would belong to a successor? The organizations and civilizations that build the most durable things are those that can answer that question honestly — and act on the answer.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 9: AI AND STRATEGY
+═══════════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="ch-header slate">
+    <div class="ch-num">09</div>
+    <div class="ch-label">Chapter Nine</div>
+    <div class="ch-title">Strategy in the<br>Age of AI</div>
+    <div class="ch-intro">The most profound strategic disruption in human history is not what AI will do to your industry. It is what AI will do to strategic thinking itself.</div>
+  </div>
+
+  <div class="section">
+    <p class="lead">We are in the early innings of a transition that will restructure the foundations of competitive advantage. AI does not just automate tasks — it automates the cognitive routines that were previously the province of senior expertise. This restructures what human strategy is for, and what it must become.</p>
+
+    <p class="body-text">The strategist of 2025 must reckon with a world in which the analytical work that once required months of consulting engagement can be completed in minutes. In which pattern recognition across global markets happens in real time. In which the information asymmetries that once protected certain positions are being rapidly erased. What does strategy become when the analysis is instantaneous?</p>
+
+    <div class="callout" data-label="The Core Strategic Question of the AI Era">
+      <p>If AI can perform most of the analytical work of strategy at near-zero marginal cost, the valuable human contribution becomes: asking the right questions, making the irreversibly committed bets, navigating the ethical ambiguities, and building the human relationships and trust on which execution depends. The strategist's value shifts decisively from information processing to judgment and wisdom.</p>
+    </div>
+
+    <h2>The New Sources of Advantage</h2>
+
+    <p class="body-text">In the pre-AI competitive landscape, certain advantages were difficult to replicate: proprietary data, specialized expertise, and analytical depth. AI is systematically eroding each of these. The implications for strategy are profound.</p>
+
+    <ul class="strategy-list">
+      <li><strong>Data advantages are narrowing:</strong> As AI tools democratize analytical capability, the advantage shifts from having data to knowing what questions to ask of data — and having the organizational capacity to act decisively on the answers.</li>
+      <li><strong>Expertise is becoming a commodity:</strong> AI's ability to synthesize domain expertise at scale means that specialized knowledge is less defensible than specialized judgment — the wisdom to know which expertise applies in which context, and what to do when expertise produces conflicting signals.</li>
+      <li><strong>Speed of learning accelerates:</strong> Organizations that build AI-augmented learning loops — systematically capturing what works, feeding it back into decision-making systems, and iterating faster than competitors — will compound advantages at a rate previously unachievable.</li>
+      <li><strong>Trust becomes more, not less, valuable:</strong> As AI-generated content and AI-assisted decisions proliferate, human trust — the confidence that behind this organization is genuine human judgment, genuine values, genuine accountability — becomes a differentiating asset of escalating importance.</li>
+      <li><strong>Agility over scale:</strong> AI breaks the traditional scaling advantages of large organizations by making small, fast-moving actors capable of matching or exceeding the analytical output of much larger ones. The competitive advantage of size is diminishing; the competitive advantage of speed and adaptability is increasing.</li>
+    </ul>
+
+    <div class="blockquote-dark">
+      <p>"The organizations that will be destroyed by AI are not those that lacked access to it. They are those that used AI to accelerate the execution of the wrong strategy — faster, more efficiently, and at greater scale than was previously possible."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>AI as a Strategic Partner</h2>
+
+    <p class="body-text">Beyond its competitive implications, AI represents a new kind of strategic tool — one that can serve as a tireless analytical partner, a scenario generator, a devil's advocate, and a pattern recognizer across domains that no human team could span. The strategist who learns to collaborate with AI effectively will not be replaced by AI. They will be amplified by it.</p>
+
+    <p class="body-text">The discipline of prompting AI for strategic insight is rapidly becoming a core strategic competence. The quality of strategic questions you can ask — and the quality of context you can provide — determines the quality of strategic insight you can extract. AI is a mirror of your strategic thinking, amplified. Poor strategic thinking, amplified, is still poor strategic thinking.</p>
+
+    <h2>The Unautomatable Core</h2>
+
+    <p class="body-text">No AI, regardless of its sophistication, can currently provide: genuine moral courage, authentic human connection, the authority that comes from lived experience, the creative leap that redefines the problem itself, or the willingness to make an irreversible commitment with full personal accountability. These are the residual strategic capabilities of the human strategist in an AI-saturated world. Cultivate them with full intensity.</p>
+
+    <div class="pullquote">
+      <p>"The strategist of the future will not compete with AI. They will be the intelligence that directs the intelligence — the judgment behind the algorithm, the wisdom in front of the model. The question is not whether AI threatens strategy. It is whether your strategy is trivial enough to be automated."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 10: PERSONAL CODE
+═══════════════════════════════════════════ -->
+<div class="chapter" id="ch10">
+  <div class="ch-header gold-bg">
+    <div class="ch-num">10</div>
+    <div class="ch-label">Chapter Ten</div>
+    <div class="ch-title">The Strategist's<br>Personal Code</div>
+    <div class="ch-intro">On building yourself into someone whose strategic thinking is genuinely worth trusting.</div>
+  </div>
+
+  <div class="section">
+    <p class="lead">All strategy is ultimately personal. The models, the frameworks, the histories — these are input. The output is always filtered through a particular human mind with particular values, particular blind spots, and a particular relationship to truth. The most important strategic investment you can make is in the quality of that filter.</p>
+
+    <p class="body-text">The strategist's personal code is not a set of values decorating an office wall. It is the operating system that runs beneath every decision — often without being consulted, often determining outcomes before the conscious mind has framed the question. Knowing your operating system, and deliberately upgrading it, is the deepest strategic work available.</p>
+
+    <div class="pullquote">
+      <p>"Your strategy can only be as good as your thinking. Your thinking can only be as good as your character. The work on the strategy document is the last ten percent. The work on the person doing the strategy is the first ninety."</p>
+      <cite>The Strategist's Codex</cite>
+    </div>
+
+    <h2>Ten Commitments of the Master Strategist</h2>
+
+    <div class="principle">
+      <div class="p-num">I</div>
+      <div class="p-content">
+        <h4>I will tell myself the truth first</h4>
+        <p>Before any strategy can be honest with the market, it must be honest with itself. I commit to an unflinching diagnosis of my actual position — not the position I would prefer to occupy.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">II</div>
+      <div class="p-content">
+        <h4>I will protect my thinking time as a strategic resource</h4>
+        <p>Deep, uninterrupted thought is the scarcest input in strategic work. I will refuse to let operational urgency colonize the time that belongs to strategic clarity.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">III</div>
+      <div class="p-content">
+        <h4>I will seek the strongest possible argument against my current position</h4>
+        <p>The strategy that cannot withstand the best attack against it is not yet a strategy. I will actively construct and seriously consider the case for abandoning every position I hold.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">IV</div>
+      <div class="p-content">
+        <h4>I will distinguish between what I know and what I believe</h4>
+        <p>The confusion of opinion with fact is the most common source of strategic error. I will label my uncertainties clearly — to myself and to others.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">V</div>
+      <div class="p-content">
+        <h4>I will make the hard call rather than the comfortable one</h4>
+        <p>Strategic courage is not dramatic. It is the consistent willingness to say what needs to be said, decide what needs to be decided, and end what needs to be ended — without waiting for the discomfort to subside.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">VI</div>
+      <div class="p-content">
+        <h4>I will learn from every outcome, including the successful ones</h4>
+        <p>Success is a noisier signal than failure. A good outcome can mask a flawed strategy. I will resist the narrative that good results confirm good thinking, and will audit my process regardless of outcome.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">VII</div>
+      <div class="p-content">
+        <h4>I will think longer than feels comfortable</h4>
+        <p>The default time horizon is always too short. I will practice extending my strategic thinking to the five-year, ten-year, and generational frame — not as an exercise in prediction, but as a discipline in perspective.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">VIII</div>
+      <div class="p-content">
+        <h4>I will read widely and think laterally</h4>
+        <p>The best strategic insight often arrives from domains adjacent to the problem at hand. I will maintain genuine intellectual curiosity across disciplines and resist the premature specialization that narrows strategic vision.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">IX</div>
+      <div class="p-content">
+        <h4>I will build in mechanisms to be proven wrong</h4>
+        <p>Every strategy should contain the conditions of its own falsification — specific, observable signals that would indicate the strategy needs to be revised. I will build these in deliberately, before commitment, when I am still capable of objectivity.</p>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-num">X</div>
+      <div class="p-content">
+        <h4>I will remember that strategy serves purpose, not the reverse</h4>
+        <p>Strategy is a means, not an end. The most elegant strategy in service of a hollow purpose is an elaborate machine going nowhere significant. I will return, regularly, to the question: what is this all for?</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CHAPTER 11: 102 MAXIMS
+═══════════════════════════════════════════ -->
+<div class="chapter" id="ch11">
+  <div class="ch-header dark">
+    <div class="ch-num">11</div>
+    <div class="ch-label">Chapter Eleven</div>
+    <div class="ch-title">102 Strategic<br>Maxims</div>
+    <div class="ch-intro">Concentrated intelligence. Each one distilled from failure, observation, and the hard-won insight of long practice.</div>
+  </div>
+
+  <div class="dark-section" style="background: #1a1a1a;">
+    <p class="lead" style="color:#f0ebe0; font-size: clamp(18px,2vw,22px);">These maxims are not rules. They are compressed experience — each one the residue of a situation where someone learned something the hard way so that you might learn it the easy way.</p>
+
+    <div class="two-col">
+      <div>
+        <ul class="strategy-list" style="color:#e8e2d8;">
+          <li>Strategy is the art of choosing what not to do.</li>
+          <li>The clearest signal that you have no strategy is that you are equally excited about everything.</li>
+          <li>Diagnosis before prescription. Always.</li>
+          <li>The map is not the territory. The plan is not the future.</li>
+          <li>Slow is smooth. Smooth is fast. Fast is strategic.</li>
+          <li>There is no neutral position. Staying still is a strategic choice — usually a bad one.</li>
+          <li>The competitor you underestimate is preparing the surprise.</li>
+          <li>Every strategy is a bet on how the world works. Make your bet explicit.</li>
+          <li>Urgency is usually manufactured. Importance usually whispers.</li>
+          <li>The most dangerous assumption is the one you don't know you're making.</li>
+          <li>A decision made from fear is almost never the right decision.</li>
+          <li>The best time to build a moat is before anyone is threatening the castle.</li>
+          <li>Clarity of purpose is not a luxury. It is the prerequisite for every other strategic virtue.</li>
+          <li>Your second-order thinking is more valuable than anyone's first-order analysis.</li>
+          <li>If you can't describe your advantage in a single sentence, you probably don't have one.</li>
+          <li>Strategy without resource allocation is poetry without a publisher.</li>
+          <li>The question is not what you want to do. The question is what the world will reward you for doing, consistently, excellently, over time.</li>
+          <li>Capability without positioning is a treasure no one can find.</li>
+          <li>Positioning without capability is a promise you will eventually break.</li>
+          <li>Know the difference between a pattern and a trend. Patterns repeat. Trends compound.</li>
+          <li>Most strategic failures begin not with a wrong decision but with a wrong question.</li>
+          <li>The business that tries to please everyone ends by satisfying no one.</li>
+          <li>In complexity, the strategist who simplifies wins. In simplicity, the strategist who adds necessary nuance wins.</li>
+          <li>The goal of scenario planning is not prediction. It is mental preparedness.</li>
+          <li>A great strategy badly executed beats a bad strategy brilliantly executed. Eventually.</li>
+          <li>Imitation is the worst strategy for the imitator and the best feedback for the original.</li>
+          <li>The long game is almost always the right game. It is also almost always the less-played game.</li>
+          <li>Feedback loops that reward short-term behavior will destroy long-term strategy. Redesign the feedback loops.</li>
+          <li>Build for the world that is coming, not the world that is here.</li>
+          <li>Options have value. Commitment has power. The strategist knows which moment calls for which.</li>
+          <li>The organization that cannot say no to opportunities is not strategic. It is impulsive.</li>
+          <li>Data gives you information. Models give you structure. Judgment gives you wisdom. You need all three, in the right order.</li>
+          <li>Never confuse the absence of evidence with evidence of absence.</li>
+          <li>The strategist who mistakes their framework for reality will be surprised by reality.</li>
+          <li>Trust compounds. Betrayal decompounds. At the same rate? Not even close.</li>
+          <li>The problem behind the problem is almost always the real problem.</li>
+          <li>Constraints are not obstacles to strategy. They are the materials of strategy.</li>
+          <li>Scale what works before you innovate past it.</li>
+          <li>The best intelligence is not the most data. It is the most relevant signal.</li>
+          <li>There is always a simpler explanation. Find it before committing to the complex one.</li>
+          <li>Timing is a strategic variable, not a scheduling matter.</li>
+          <li>The competitor who is not worried about you is not planning to compete with you. They are planning to make you irrelevant.</li>
+          <li>Understand what your customers are not telling you. The silence is the strategy.</li>
+          <li>Always know which number is the most important number, and watch it without blinking.</li>
+          <li>Culture is the strategy your organization runs when no one is directing it.</li>
+          <li>The best time to pivot is before everyone else sees why you had to.</li>
+          <li>Precision in language is precision in thinking. Vague strategy language signals vague strategy thinking.</li>
+          <li>Risk and uncertainty are not the same. Risk is calculable. Uncertainty is not. Treat each accordingly.</li>
+          <li>Know your theory of value creation, and test it quarterly.</li>
+          <li>The strategist who wins by luck will lose by luck. Build for repeatability, not brilliance.</li>
+          <li>Beware of strategies that require your competitors to behave stupidly.</li>
+        </ul>
+      </div>
+      <div>
+        <ul class="strategy-list" style="color:#e8e2d8;">
+          <li>The enemy of long-term strategy is short-term incentive. Align your incentives first.</li>
+          <li>Simplicity on the far side of complexity is wisdom. Simplicity on the near side is ignorance.</li>
+          <li>Every sustainable advantage is ultimately a system of reinforcing choices, not a single clever move.</li>
+          <li>What you measure changes. What you measure and reward changes faster.</li>
+          <li>The strategist who reads only within their domain will always be surprised from outside it.</li>
+          <li>Retreat is sometimes the most sophisticated strategic maneuver available.</li>
+          <li>Beware the strategy that everyone in the room immediately loves. Genuine strategic insight is usually uncomfortable at first.</li>
+          <li>To know your customer's unarticulated need is to hold their future purchase in your hand before they do.</li>
+          <li>Speed of learning is the only sustainable competitive advantage in a fast-changing environment.</li>
+          <li>Never attribute to malice what is adequately explained by incentive misalignment.</li>
+          <li>The organization that cannot learn from small failures will learn from catastrophic ones.</li>
+          <li>Your pricing strategy is your positioning strategy made numerical.</li>
+          <li>The decisions you make when no one is watching are your actual strategy.</li>
+          <li>Diversification can reduce risk. It always reduces focus. Know which you need more.</li>
+          <li>The first mover has timing. The fast follower has information. Both are valuable. Neither is decisive.</li>
+          <li>A vision without a resource constraint is a dream. A resource constraint without a vision is a budget. Strategy is the bridge.</li>
+          <li>Never let the cost of a mistake exceed the value of the lesson it teaches.</li>
+          <li>Every powerful positioning is built on a genuine sacrifice. What are you willing to not be?</li>
+          <li>The strategist who cannot communicate their strategy cannot implement it.</li>
+          <li>The bottleneck determines the throughput. Always find it. Always address it first.</li>
+          <li>Strong opinions, loosely held — but held long enough to act on them fully.</li>
+          <li>The most important conversation you can have is the one everyone in the room is avoiding.</li>
+          <li>Your greatest strategic asset is the thing your competitors cannot copy quickly because they don't understand why it works.</li>
+          <li>Bet on your strengths in your core. Bet on the future at the edges.</li>
+          <li>The time to make decisions is not when the pressure is maximum. The time to make decisions is before the pressure arrives.</li>
+          <li>What would have to be true for your strategy to fail? Build your early warning system around that answer.</li>
+          <li>Execution without strategy is wandering. Strategy without execution is fantasy. The gap between them is organizational will.</li>
+          <li>Crisis accelerates trends. It does not create them. The strategist who studied the pre-crisis trends is never surprised by the crisis's aftermath.</li>
+          <li>To think clearly, you must sometimes stop thinking. The shower, the walk, the sleep — these are not interruptions to strategic work. They are strategic work.</li>
+          <li>Consensus is not strategy. Consensus is politics. Strategy sometimes requires going against the consensus, which requires both evidence and courage.</li>
+          <li>The best competitive intelligence is not in the competitor's press release. It is in the job listings they are posting.</li>
+          <li>Distinguish between activities and outcomes. You cannot control activities. You cannot ignore outcomes. But you can build the activities that make the outcomes probable.</li>
+          <li>Know which of your beliefs about your industry are actually artifacts of history and not laws of nature.</li>
+          <li>The company that controls the platform controls the rules. The company that controls the rules controls the game.</li>
+          <li>In any negotiation, the party with the most alternatives has the most leverage. Build alternatives before you need them.</li>
+          <li>No strategy survives its first encounter with a determined competitor unchanged. Plan for the adaptation.</li>
+          <li>The strategist without curiosity is the strategist already losing.</li>
+          <li>The cost of maintaining a bad strategy long after it should have been abandoned is always higher than the cost of pivoting early would have been.</li>
+          <li>A strategy is not real until someone has been told no because of it.</li>
+          <li>Every market position is temporary. Every brand is in perpetual need of re-earning. Every advantage is on a depreciation schedule.</li>
+          <li>The strategist who insists on certainty before action will always be outcompeted by the strategist who acts on well-reasoned probability.</li>
+          <li>The rarest and most valuable strategic skill is not knowing what to do. It is knowing when to do it.</li>
+          <li>To understand the future of any industry, follow the incentives of its most ambitious participants — not its most established ones.</li>
+          <li>The most powerful question in strategy: what would we do differently if we were starting today?</li>
+          <li>Know the answer to: if we failed, what would have been the most likely cause? Build your strategy around preventing that answer.</li>
+          <li>The definition of strategic excellence is doing the right thing, at the right time, in the right way, repeatedly, without it requiring heroism.</li>
+          <li>Strategy is not something you do. It is something you become.</li>
+          <li>The ultimate strategy is to be so genuinely useful to the world that the world competes to make you successful.</li>
+          <li>Your thinking is a habit. Your habits are your strategy. Your strategy is your future. Change accordingly.</li>
+          <li>The game is never over. It only rests.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     EXTENDED QUOTES GALLERY
+═══════════════════════════════════════════ -->
+<div class="section-wide" style="background: var(--bone); padding: 100px 80px;">
+  <div class="toc-label" style="color: var(--gold)">The Codex Quote Gallery</div>
+  <h2 style="margin-bottom: 50px; font-size: clamp(32px,5vw,64px);">Original Maxims for<br>the Modern Strategist</h2>
+
+  <div class="quote-grid">
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"Strategy is not the map you draw before the journey — it is the judgment you exercise when the map runs out."</p>
+    </div>
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"The amateur fears uncertainty. The strategist builds a house inside it."</p>
+    </div>
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"Every great strategy begins with a brutal honesty about what you are not."</p>
+    </div>
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"Position is temporary. The capacity to reposition is the only lasting advantage."</p>
+    </div>
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"Most mistake urgency for strategy — one is the noise of the present, the other is a conversation with the future."</p>
+    </div>
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"The strongest move is often the one your opponent never had to defend against, because they never believed you'd make it."</p>
+    </div>
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"Clarity of purpose is not a luxury in strategy — it is the weapon that makes all other weapons sharper."</p>
+    </div>
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"The strategist does not ask what is possible today. They ask what, if built quietly, becomes inevitable tomorrow."</p>
+    </div>
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"Speed of decision is the new speed of execution. The world has not gotten slower."</p>
+    </div>
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"Your strategy is visible not in your vision statement but in where your calendar and budget go when things get tight."</p>
+    </div>
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"The thinker who cannot be surprised has stopped thinking. Surprise is the fee for genuine intellectual engagement."</p>
+    </div>
+    <div class="quote-card">
+      <span class="qmark">"</span>
+      <p>"To build an enduring advantage, build something your competitors cannot imitate without becoming you."</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CODA / FINAL PAGE
+═══════════════════════════════════════════ -->
+<div class="final-cover" id="final">
+  <div class="fc-title">THE GAME<br>CONTINUES</div>
+  <div class="fc-sub">A Coda: The Unfinished Strategy</div>
+  <div class="fc-final-quote">
+    "Every strategist eventually arrives at the same humbling realization: the most important strategy is not behind you. It is ahead. The codex is never finished. The edge is never permanent. The game — thank whatever you thank — is never over.<br><br>
+    This is not a burden. It is the only kind of life worth strategizing for."
+  </div>
+  <div style="margin-top: 60px; position: relative; z-index: 1;">
+    <div style="width: 60px; height: 1px; background: var(--gold); margin: 0 auto 20px;"></div>
+    <div style="font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.4em; color: rgba(245,240,232,0.3); text-align: center; text-transform: uppercase;">The Strategist's Codex · 2025 Edition · All Eleven Chapters</div>
+  </div>
+</div>
+
+</body>
+</html>
